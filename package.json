@@ -1,0 +1,68 @@
+{
+  "name": "netsuite-m2m-auth",
+  "version": "1.0.1",
+  "description": "NetSuite M2M Client.",
+  "main": "build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dturton/netsuite-m2m-auth"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "rimraf ./build && tsc",
+    "dev": "npx nodemon",
+    "start": "npm run build && node build/index.js",
+    "debug": "ts-node-dev --transpile-only --respawn --inspect=4321 --project tsconfig.json examples/paginate.ts",
+    "lint": "eslint . --ext .ts",
+    "prettier-format": "run-script-os",
+    "prettier-format:win32": "prettier --config .prettierrc \"./src/**/*.ts\" --write",
+    "prettier-format:darwin:linux": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier-format:default": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier-watch": "run-script-os",
+    "prettier-watch:win32": "onchange \"src/**/*.ts\" -- prettier --write {{changed}}",
+    "prettier-watch:darwin:linux": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
+    "prettier-watch:default": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
+    "test": "jest",
+    "test:dev": "jest --watchAll"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && npm run prettier-format && npm run lint"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "@types/jest": "^28.1.8",
+    "@types/jsrsasign": "^10.5.4",
+    "@types/node": "^18.6.1",
+    "@types/node-localstorage": "^1.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "jest": "^28.1.3",
+    "nodemon": "^2.0.19",
+    "onchange": "^7.1.0",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "run-script-os": "^1.1.6",
+    "ts-jest": "^28.0.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "axios": "^1.2.1",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "jest-cucumber": "^3.0.1",
+    "jsrsasign": "^10.6.1",
+    "jsrsasign-util": "^1.0.5",
+    "node-localstorage": "^2.2.1"
+  }
+}

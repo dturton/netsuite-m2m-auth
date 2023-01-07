@@ -1,44 +1,38 @@
-# 🧰 Simple TypeScript Starter | 2022
-
-> We talk about a lot of **advanced Node.js and TypeScript** concepts on [the blog](https://khalilstemmler.com), particularly focused around Domain-Driven Design and large-scale enterprise application patterns. However, I received a few emails from readers that were interested in seeing what a basic TypeScript starter project looks like. So I've put together just that.
-
-### Features
-
-- Minimal
-- TypeScript v4
-- Testing with Jest
-- Linting with Eslint and Prettier
-- Pre-commit hooks with Husky
-- VS Code debugger scripts
-- Local development with Nodemon
-
+# 🧰 Node.JS NetSuite  M2M Authentication
+# netsuite-m2m-auth
 ### Scripts
 
-#### `npm run start:dev`
+Node.JS NetSuite M2M Authentication is a client library written in TypeScript that allows for machine-to-machine (M2M) authentication with NetSuite. It simplifies the process of authenticating with NetSuite's APIs by providing a convenient and easy-to-use interface for obtaining and refreshing access tokens. This library is particularly useful for developers building integrations or applications that need to programmatically interact with NetSuite data and functionality.
 
-Starts the application in development using `nodemon` and `ts-node` to do hot reloading.
+Setting up environmental variables
 
-#### `npm run start`
+The NetSuite REST API requires certain configuration values, such as your account ID, client ID, and private key, in order to authenticate requests. These values should be stored as environmental variables on your system.
 
-Starts the app in production by first building the project with `npm run build`, and then executing the compiled JavaScript at `build/index.js`.
+To set up these environmental variables, you will need to create a .env file in     the root directory of your project. The .env file should contain the following variables:
 
-#### `npm run build`
+ - ACCOUNT_ID=your_account_id
+ - CLIENT_ID=your_client_id
+ -  CONSUMER_KEY=your_consumer_key
+ - CONSUMER_SECRET=your_consumer_secret
+ - PRIVATE_KEY_CONTENTS=your_private_key_contents
+ - CERTIFICATE_ID=your_certificate_id
 
-Builds the app at `build`, cleaning the folder first.
+```typescript
+const paginate = new Paginate({
+  apiCall: async (offset, limit) => {
+    const response = await client.suiteQL({
+      query: `SELECT item,location,averagecostmli,quantityavailable,quantitybackordered,quantitycommitted,quantityonhand,quantityonorder FROM inventoryitemlocations WHERE quantityavailable>0`,
+      params: { offset, limit },
+    });
+    return response;
+  },
+});
 
-#### `npm run test`
+const run = async () => {
+  for await (const response of paginate.run()) {
+    console.log(response.data);
+  }
+};
 
-Runs the `jest` tests once.
-
-#### `npm run test:dev`
-
-Run the `jest` tests in watch mode, waiting for file changes.
-
-#### `npm run prettier-format`
-
-Format your code.
-
-#### `npm run prettier-watch`
-
-Format your code in watch mode, waiting for file changes.
-# netsuite-m2m
+void run();
+```
