@@ -147,6 +147,7 @@ export interface FulfillmentClientRequest {
 export interface RequestOptions {
   path: string;
   method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'head' | 'options';
+  baseUrlPath: string;
   body?: string | object;
   params?: object;
   heads?: { [key: string]: string };
@@ -214,6 +215,6 @@ export type LockOptions = {
 };
 
 export interface SuiteQLRequestOptions
-  extends Omit<RequestOptions, 'body' | 'path'> {
+  extends Omit<RequestOptions, 'body' | 'path' | 'baseUrlPath'> {
   query: string;
 }

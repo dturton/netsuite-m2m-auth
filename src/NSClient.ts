@@ -13,7 +13,7 @@ import {
   NSTokenRequestResponse,
   RequestOptions,
   SuiteQLRequestOptions,
-} from './types';
+} from './types.js';
 
 export default class NSClient {
   config: NSClientConfig;
@@ -50,7 +50,7 @@ export default class NSClient {
       scope: ['restlets', 'rest_webservices'], // scopes specified on integration record
       iat: +new Date() / 1000, // timestamp in seconds
       exp: +new Date() / 1000 + 3600, // timestamp in seconds, 1 hour later, which is max for expiration
-      aud: `https://3609571.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token`,
+      aud: `https://${this.config.accountId}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token`,
     };
 
     const stringifiedJwtPayload = JSON.stringify(jwtPayload);
@@ -98,6 +98,7 @@ export default class NSClient {
     options: SuiteQLRequestOptions,
   ): Promise<AxiosResponse<NSBaseRestResponse & T>> {
     const response = await this.request({
+      baseUrlPath: '.suitetalk.api.netsuite.com/services/rest',
       path: '/query/v1/suiteql',
       method: 'post',
       params: options.params,
@@ -108,7 +109,24 @@ export default class NSClient {
     return response as AxiosResponse<NSBaseRestResponse & T>;
   }
 
-  async request<T>(
+  async getRestlet<T>(
+    scriptId: number,
+    params: Record<string, string>,
+  ): Promise<AxiosResponse<T>> {
+    const response = await this.request({
+      baseUrlPath: `.app.netsuite.com/app/site/hosting/`,
+      path: `restlet.nl`,
+      method: 'get',
+      params: {
+        script: scriptId,
+        deploy: 1,
+        ...params,
+      },
+    });
+    return response as unknown as AxiosResponse<T>;
+  }
+
+  private async request<T>(
     opts: RequestOptions,
   ): Promise<AxiosResponse<NSBaseRestResponse & T>> {
     const accessToken =
@@ -122,7 +140,9 @@ export default class NSClient {
 
     const baseUrl = `https://${this.config.accountId
       .toLowerCase()
-      .replace('_', '-')}.suitetalk.api.netsuite.com/services/rest`;
+      .replace('_', '-')}${
+      opts.baseUrlPath || '.suitetalk.api.netsuite.com/services/rest'
+    }`;
 
     const requestConfig: AxiosRequestConfig = {
       baseURL: baseUrl,

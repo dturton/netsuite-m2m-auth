@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import url from 'url';
-import { NSBaseRestResponse } from './types';
+import { NSBaseRestResponse } from './types.js';
 
 export interface PaginateOptions {
   limit?: number;

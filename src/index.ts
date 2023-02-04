@@ -1,6 +1,4 @@
-import NSClient from './NSClient';
-import Paginate from './Paginate';
-
-export default NSClient;
-export { Paginate };
-export * from './types';
+import NSClient from './NSClient.js';
+import Paginate from './Paginate.js';
+export { NSClient, Paginate };
+export * from './types.js';
