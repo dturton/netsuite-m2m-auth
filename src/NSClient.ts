@@ -126,7 +126,7 @@ export default class NSClient {
     return response as unknown as AxiosResponse<T>;
   }
 
-  private async request<T>(
+  async request<T>(
     opts: RequestOptions,
   ): Promise<AxiosResponse<NSBaseRestResponse & T>> {
     const accessToken =
@@ -155,9 +155,17 @@ export default class NSClient {
       async (response: AxiosResponse<NSBaseRestResponse>) => response,
       async (err) => {
         const error = err as AxiosError;
-        if (error.response?.status === 400) {
-          const data = await this.refreshToken();
-          this.accessToken = data.access_token;
+        if (error.response?.status === 400 || error.response?.status === 401) {
+          try {
+            const data = await this.refreshToken();
+            if (data.access_token) {
+              this.accessToken = data.access_token;
+            } else {
+              throw new Error('No access token');
+            }
+          } catch (error) {
+            return Promise.reject(error);
+          }
         } else {
           return Promise.reject(error);
         }

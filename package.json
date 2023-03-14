@@ -1,6 +1,6 @@
 {
   "name": "netsuite-m2m-auth",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "NetSuite M2M Client.",
   "repository": {
     "type": "git",
@@ -10,9 +10,9 @@
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "tsc",
+    "test": "jest",
     "prepack": "npm run build"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -150,7 +150,7 @@ export interface RequestOptions {
   baseUrlPath: string;
   body?: string | object;
   params?: object;
-  heads?: { [key: string]: string };
+  headers?: { [key: string]: string };
 }
 
 export interface NSTokenRequestResponse {
